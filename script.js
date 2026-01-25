@@ -51,17 +51,24 @@ form1.addEventListener("submit" , function (event) {
     }
 }); 
 
-let inputUsernames = [];
+let inputUsernames = {};
 
 form2.addEventListener("submit" , function(event) {
     event.preventDefault();
-    inputUsernames = [];
+    inputUsernames = {};
     console.log("Form-2 submitted");
 
     // fetch all text-input values
     for(let id of inputPlatformsId) {
         let inputBtn = document.querySelector(`#${id}`)
-        inputUsernames.push({[id] : inputBtn.value}); 
-    }
+        let platform = id.replace("_username","");
 
+        if(inputBtn.value.trim().length == 0) {
+            alert("Please fill all usernames");
+            return;
+        }
+
+        inputUsernames[platform] = inputBtn.value.trim();
+    }
+    
 });
