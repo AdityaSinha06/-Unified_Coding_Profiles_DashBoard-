@@ -55,6 +55,7 @@ let inputUsernames = [];
 
 form2.addEventListener("submit" , function(event) {
     event.preventDefault();
+    inputUsernames = [];
     console.log("Form-2 submitted");
 
     // fetch all text-input values
