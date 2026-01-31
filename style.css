@@ -13,3 +13,18 @@ form {
     display: none;
 }
 
+.card {
+    height: 300px;
+    width: 80vw;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-top: 10px;
+    padding: 0 0 0 10px;
+}
+
+#otherPlatforms {
+    display: flex;
+    flex-direction: row;
+    
+    
+}

@@ -19,6 +19,9 @@ async function fetchCodeforcesData(handle) {
     }
 }
 
+inputPlatformsId = [];
+form2.innerHTML = "";
+
 form1.addEventListener("submit" , function (event) {
     event.preventDefault();
     console.log("Form-1 submitted");
@@ -71,6 +74,7 @@ form1.addEventListener("submit" , function (event) {
 
 let inputUsernames = {};
 
+let dashboard = document.querySelector("#dashboard");
 form2.addEventListener("submit" , function(event) {
     event.preventDefault();
     inputUsernames = {};
@@ -94,19 +98,87 @@ form2.addEventListener("submit" , function(event) {
     console.log(savedProfiles);
 
     if(savedProfiles && savedProfiles["codeforces"]) {
-        fetchCodeforcesData(savedProfiles["codeforces"])
+        
+    }
+
+    form2.classList.add("hidden");
+    dashboard.classList.remove("hidden")
+    dashboard.innerHTML = "<h3>Your Coding Dashboard</h3>";
+
+    let secDiv = document.createElement("div");
+    secDiv.id = "otherPlatforms";
+    let otherplatformsPresent = false;
+
+    for(let platform in savedProfiles) {
+        if(platform !== "codeforces") otherplatformsPresent = true;
+        let cardDiv = document.createElement("div");
+        let linktoProfile = document.createElement("a");
+        linktoProfile.innerText = "Go to Profile";
+        linktoProfile.target = "_blank";
+
+        cardDiv.classList.add("card");
+        cardDiv.id = `${platform}`;
+        cardDiv.innerHTML = `<h3>${platform}:</h3>`;
+        if(platform === "codeforces") {
+            fetchCodeforcesData(savedProfiles["codeforces"])
             .then(user => {
                 if(!user) return;
 
-                console.log("Codeforces User:");
-                console.log("Handle: ", user.handle);
-                console.log("Max Rating: ", user.maxRating);
-                console.log("Max Rank: ", user.maxRank)
-                console.log("Rating: ", user.rating);
-                console.log("Rank: ", user.rank);
+                let handle = document.createElement("p");
+                handle.innerHTML = `<b>Handle: </b> ${user.handle}`
+
+                let maxRating = document.createElement("p");
+                maxRating.innerHTML = `<b>Max Rating: </b>${user.maxRating}`
+
+                let maxRank = document.createElement("p");
+                maxRank.innerHTML = `<b>Max Rank: </b>${user.maxRank}`;
+
+                let currRating = document.createElement("p");
+                currRating.innerHTML = `<b>Current-Rating: </b>${user.rating}`;
+
+                let currRank = document.createElement("p");
+                currRank.innerHTML = `<b>Current-Rank: </b>${user.rank}`;
+                
+                linktoProfile.setAttribute("href" , `https://codeforces.com/profile/${user.handle}`)
+                
+                cardDiv.appendChild(handle);
+                cardDiv.appendChild(maxRating);
+                cardDiv.appendChild(maxRank);
+                cardDiv.appendChild(currRating);
+                cardDiv.appendChild(currRank);
+                cardDiv.appendChild(linktoProfile);
+
+                dashboard.appendChild(cardDiv);
             });
+        } 
+        else if(platform === "leetcode") {
+            linktoProfile.setAttribute("href" , `https://leetcode.com/${savedProfiles["leetcode"]}/`)
+
+            cardDiv.appendChild(linktoProfile);
+            cardDiv.style.height = "90px";
+            cardDiv.style.width = "20vw";
+            cardDiv.style.marginRight = "5px";
+            secDiv.appendChild(cardDiv);
+        } 
+        else if(platform === "codechef") {
+            linktoProfile.setAttribute("href" , `https://www.codechef.com/users/${savedProfiles["codechef"]}`)
+
+            cardDiv.appendChild(linktoProfile);
+            cardDiv.style.height = "90px";
+            cardDiv.style.width = "20vw";
+            cardDiv.style.marginRight = "5px";
+            secDiv.appendChild(cardDiv);
+        }
+        else {
+            linktoProfile.setAttribute("href" , `https://www.geeksforgeeks.org/profile/${savedProfiles["geeksforgeeks"]}`)
+            
+            cardDiv.appendChild(linktoProfile);
+            cardDiv.style.height = "90px";
+            cardDiv.style.width = "20vw";
+            cardDiv.style.marginRight = "5px";
+            secDiv.appendChild(cardDiv);
+        }
     }
-    
+
+    if(otherplatformsPresent) dashboard.appendChild(secDiv);
 });
-
-
