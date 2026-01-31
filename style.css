@@ -4,6 +4,10 @@ body {
     align-items: center;
 }
 
+h1 {
+    text-decoration: underline double 1px black;
+}
+
 form {
     display: flex;
     flex-direction: column;
