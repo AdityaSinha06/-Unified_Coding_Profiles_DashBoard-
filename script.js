@@ -42,7 +42,17 @@ form1.addEventListener("submit" , function (event) {
             let label = document.createElement("label");
 
             input.type="text";
-            input.placeholder = `Your ${platform} Username`
+            
+            if(platform == "codeforces") {
+                input.placeholder = "adityasinha_cf"
+            } else if(platform == "leetcode") {
+                input.placeholder = "adityasinha_lC"
+            } else if(platform == "codechef") {
+                input.placeholder = "adityasinha_cc"
+            } else {
+                input.placeholder = "adityasinhagfg"
+            }
+
             input.id = `${platform}_username`
             input.name = "username[]"
 
@@ -97,9 +107,6 @@ form2.addEventListener("submit" , function(event) {
     const savedProfiles = JSON.parse(localStorage.getItem("codingProfiles"));
     console.log(savedProfiles);
 
-    if(savedProfiles && savedProfiles["codeforces"]) {
-        
-    }
 
     form2.classList.add("hidden");
     dashboard.classList.remove("hidden")
